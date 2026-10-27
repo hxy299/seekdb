@@ -1667,7 +1667,6 @@ bool ObAIFuncPromptObjectUtils::is_valid_prompt_object(ObJsonObject *prompt_obje
         is_valid = false;
       }
     }
-    }
   }
   return is_valid;
 }
@@ -1683,7 +1682,7 @@ int get_prompt_arg_text(ObIAllocator &allocator, ObJsonNode *arg_node, ObString 
     ret = OB_INVALID_ARGUMENT;
   } else if (arg_node->json_type() == ObJsonNodeType::J_STRING) {
     arg_text = static_cast<ObJsonString *>(arg_node)->get_str();
-  } else if (OB_FAIL(arg_node->get_raw_binary(arg_text, &allocator))) {
+  } else if (OB_FAIL(ObAIFuncJsonUtils::print_json_to_str(allocator, arg_node, arg_text))) {
   }
   return ret;
 }
