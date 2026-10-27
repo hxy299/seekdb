@@ -232,8 +232,9 @@ int ObAiModelEndpointInfo::get_unencrypted_access_key(common::ObIAllocator &allo
 {
   int ret = OB_SUCCESS;
   unencrypted_access_key.reset();
-  if (access_key_.empty()) {
-    // Providers such as Ollama run models locally and need no API key.
+  if (access_key_.empty() || OB_ISNULL(access_key_.ptr())) {
+    // Providers such as Ollama run models locally and need no API key. An
+    // endpoint that was altered without an access key stores a NULL string.
   } else if (OB_FAIL(decrypt_access_key_(allocator, access_key_, unencrypted_access_key))) {
   }
   return ret;
